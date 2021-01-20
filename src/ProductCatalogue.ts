@@ -17,7 +17,7 @@ export class ProductCatalogue {
     this.productMap = {};
     products.forEach((product) => {
       this.addProduct(product);
-    }, {} as ProductMap);
+    });
   }
 
   addProduct(product: Product) {
