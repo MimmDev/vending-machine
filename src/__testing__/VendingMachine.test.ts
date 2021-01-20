@@ -1,23 +1,61 @@
+import { Coin } from "../Coin";
+import { Product } from "../Product";
+import { VendingMachine } from "../VendingMachine";
+
 describe("Vending Machine", () => {
-  test.todo("should let the user add coins");
+  it("should let the user add coins", () => {
+    const vendingMachine = new VendingMachine([]);
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    expect(vendingMachine.displayCoinStatus()).toEqual("$0.25");
+  });
 
-  test.todo("should display INSERT COIN if no coins have been added");
+  it("should display INSERT COIN if no coins have been added", () => {
+    const vendingMachine = new VendingMachine([]);
+    expect(vendingMachine.displayCoinStatus()).toEqual("INSERT COIN");
+  });
 
-  test.todo("should display the current amount if coins have been added");
+  it("should display the current amount if coins have been added", () => {
+    const vendingMachine = new VendingMachine([]);
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(2.3, 18));
+    vendingMachine.insertCoin(new Coin(5, 21));
+    vendingMachine.insertCoin(new Coin(2.3, 18));
+    vendingMachine.insertCoin(new Coin(5, 21));
+    vendingMachine.insertCoin(new Coin(5, 21));
+    expect(vendingMachine.displayCoinStatus()).toEqual("$0.6");
+  });
 
-  test.todo("should let the user view a list of available products");
+  it("should allow a user to purchase a product if enough coins have been inserted", () => {
+    const products = [new Product("Cola", 1)];
+    const vendingMachine = new VendingMachine(products);
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    const message = vendingMachine.purchaseProduct("Cola");
+    expect(message).toEqual("THANK YOU");
+    expect(vendingMachine.getProductInformation("Cola")).toEqual(
+      "Name: Cola, Price: $1, Quantity: 0"
+    );
+  });
 
-  test.todo(
-    "should allow a user to purchase a product if enough coins have been inserted"
-  );
+  it("should reset the current amount to 0 after a purchase has been made", () => {
+    const products = [new Product("Cola", 1)];
+    const vendingMachine = new VendingMachine(products);
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.purchaseProduct("Cola");
+    expect(vendingMachine.displayCoinStatus()).toEqual("INSERT COIN");
+  });
 
-  test.todo(
-    "should reset the current amount to 0 after a purchase has been made"
-  );
-
-  test.todo(
-    "should display the chosen product's price if not enough coins have been inserted"
-  );
+  it("should display the chosen product's price if not enough coins have been inserted", () => {
+    const products = [new Product("Cola", 1)];
+    const vendingMachine = new VendingMachine(products);
+    const message = vendingMachine.purchaseProduct("Cola");
+    expect(message).toEqual("PRICE: $1");
+  });
 
   test.todo(
     "should return change if a product costs less than the amount inserted"
@@ -27,9 +65,21 @@ describe("Vending Machine", () => {
     "should allow the user to return all inserted coins from the machine"
   );
 
-  test.todo(
-    "should display SOLD OUT if the user tries to purchase a sold out product"
-  );
+  it("should display SOLD OUT if the user tries to purchase a sold out product", () => {
+    const products = [new Product("Cola", 1)];
+    const vendingMachine = new VendingMachine(products);
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.purchaseProduct("Cola");
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    vendingMachine.insertCoin(new Coin(5.7, 25));
+    const message = vendingMachine.purchaseProduct("Cola");
+    expect(message).toEqual("SOLD OUT");
+  });
 
   test.todo(
     "should display EXACT CHANGE ONLY if the machine does not have enough coins to make change"

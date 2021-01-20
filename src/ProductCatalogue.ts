@@ -6,8 +6,8 @@ type ProductMap = {
 };
 
 export enum ProductError {
-  NOT_FOUND = "NOT_FOUND",
-  OUT_OF_STOCK = "OUT_OF_STOCK",
+  NOT_FOUND = "NOT FOUND",
+  SOLD_OUT = "SOLD OUT",
 }
 
 export class ProductCatalogue {
@@ -33,7 +33,7 @@ export class ProductCatalogue {
     }
   }
 
-  removeProduct(productName: string): Product {
+  removeProduct(productName: string) {
     const product = this.productMap[productName];
 
     if (!product) {
@@ -41,7 +41,7 @@ export class ProductCatalogue {
     }
 
     if (!product.quantity) {
-      throw new Error(ProductError.OUT_OF_STOCK);
+      throw new Error(ProductError.SOLD_OUT);
     }
 
     product.quantity -= 1;
@@ -50,5 +50,13 @@ export class ProductCatalogue {
 
   getCatalogueOverview(): ProductMap {
     return this.productMap;
+  }
+
+  getCatalogueEntry(productName: string): CatalogueEntry {
+    const product = this.productMap[productName];
+    if (!product) {
+      throw new Error(ProductError.NOT_FOUND);
+    }
+    return product;
   }
 }

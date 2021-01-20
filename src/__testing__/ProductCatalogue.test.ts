@@ -31,7 +31,7 @@ describe("ProductCatalogue", () => {
     catalogue.removeProduct("Cola");
     expect(() => {
       catalogue.removeProduct("Cola");
-    }).toThrowError(ProductError.OUT_OF_STOCK);
+    }).toThrowError(ProductError.SOLD_OUT);
   });
 
   it("should throw an error if an invalid product is removed", () => {
