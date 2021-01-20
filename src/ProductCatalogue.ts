@@ -45,11 +45,6 @@ export class ProductCatalogue {
     }
 
     product.quantity -= 1;
-    return new Product(product.name, product.price);
-  }
-
-  getCatalogueOverview(): ProductMap {
-    return this.productMap;
   }
 
   getCatalogueEntry(productName: string): CatalogueEntry {
