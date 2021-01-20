@@ -20,7 +20,7 @@ describe("Vending Machine", () => {
   );
 
   test.todo(
-    "should return change if a product cost less than the amount inserted"
+    "should return change if a product costs less than the amount inserted"
   );
 
   test.todo(
